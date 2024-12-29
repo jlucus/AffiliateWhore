@@ -114,6 +114,111 @@ def display_kpi_summary(data):
         print(f"  - Long Term Value: {scores['long_term_value']}")
         print(f"  - Risky Behaviors: {scores['risky_behaviors']}")
         print()
+
+def calculate_scores(data):
+    scores = {
+        ## 1 MAP
+        'monthly_active_players': calculate_map(data),
+        ## 2 DF
+        'deposit_frequency': calculate_df(data),
+        ## 3 BDR
+        'bonus_to_deposit_ratio': calculate_bdr(data),
+        ## 4 ABS
+        'average_bet_size': calculate_abs(data),
+        ## 5 CAC
+        'customer_acquisition_cost': calculate_cac(data),
+        ## 6 LTV
+        'long_term_value': calculate_ltv(data),
+        ## 7 RB
+        'risky_behaviors': calculate_rb(data) 
+    }
+    
+    total_score = sum(scores.values())
+    return scores, total_score
+
+def calculate_map(data):
+    # 1 Calculate Monthly Active Players
+    map = len(set([player['id'] for player in data if player['last_deposit_date'] >= last_30_days]))
+    if map <= 10:
+        return 10
+    elif map <= 20:
+        return 20
+    elif map <= 30:
+        return 30
+    else:
+        return 40
+
+def calculate_df(data):
+    # 2 Calculate Deposit Frequency
+    df = sum([player['deposit_count'] for player in data]) / len(data)
+    if df <= 2:
+        return 10
+    elif df <= 4:
+        return 20
+    elif df <= 6:
+        return 30
+    else:
+        return 40
+
+def calculate_bdr(data):
+    # 3 Calculate Bonus to Deposit Ratio
+    bdr = sum([player['bonus_amount'] for player in data]) / sum([player['deposit_amount'] for player in data])
+    if bdr <= 0.1:
+        return 40
+    elif bdr <= 0.2:
+        return 30
+    elif bdr <= 0.3:
+        return 20
+    else:
+        return 10
+
+def calculate_abs(data):
+    # 4 Calculate Average Bet Size
+    abs = sum([player['total_wagered'] for player in data]) / sum([player['bet_count'] for player in data])
+    if abs <= 10:
+        return 10
+    elif abs <= 20:
+        return 20
+    elif abs <= 30:
+        return 30
+    else:
+        return 40
+
+def calculate_cac(data):
+    # 5 Calculate Customer Acquisition Cost
+    cac = sum([player['acquisition_cost'] for player in data]) / len(data)
+    if cac <= 50:
+        return 40
+    elif cac <= 100:
+        return 30
+    elif cac <= 150:
+        return 20
+    else:
+        return 10
+
+def calculate_ltv(data):
+    # 6 Calculate Long Term Value
+    ltv = sum([player['total_revenue'] for player in data]) / len(data)
+    if ltv <= 100:
+        return 10
+    elif ltv <= 200:
+        return 20
+    elif ltv <= 300:
+        return 30
+    else:
+        return 40
+
+def calculate_rb(data):
+    # 7 Calculate Risky Behaviors
+    rb = sum([1 for player in data if player['risky_behavior']])
+    if rb <= 5:
+        return 40
+    elif rb <= 10:
+        return 30
+    elif rb <= 15:
+        return 20
+    else:
+        return 10
 ```
 
 #### License
