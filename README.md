@@ -64,3 +64,40 @@ for _ in range(num_players):
 
 scores, total_score = calculate_scores(data)
 update_ui(scores, total_score)
+
+Functions
+calculate_map(data): Calculates the Monthly Active Players score.
+calculate_df(data): Calculates the Deposit Frequency score.
+calculate_bdr(data): Calculates the Bonus to Deposit Ratio score.
+calculate_abs(data): Calculates the Average Bet Size score.
+calculate_cac(data): Calculates the Customer Acquisition Cost score.
+calculate_ltv(data): Calculates the Long Term Value score.
+calculate_rb(data): Calculates the Risky Behaviors score.
+calculate_engagement(data): Calculates the Engagement score.
+calculate_scores(data): Aggregates all KPI scores and calculates the total score.
+prompt_player_data(): Prompts the user to input player data.
+update_ui(scores, total_score): Updates the UI to display the scores and total score.
+Sample Data
+You can use the following sample data to test the system:
+data = [
+    {
+        'name': 'hoodmood',
+        'id': 1,
+        'last_login_date': '2024-12-26',
+        'deposit_count': 5,
+        'bonus_amount': 100,
+        'deposit_amount': 1187.23,
+        'total_wagered': 14930.16,
+        'bet_count': 100,
+        'acquisition_cost': 50,
+        'total_revenue': 200,
+        'risky_behavior': False,
+        'last_deposit_date': '2024-12-26',
+        'engagement_score': 25
+    },
+    # Add more sample players as needed
+]
+
+License
+This project is licensed under the MIT License.
+
