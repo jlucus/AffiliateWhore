@@ -44,19 +44,15 @@ This project implements a scoring system for affiliate campaigns based on variou
   - Long Term Value (LTV)
   - Risky Behaviors (RB)
   - Engagement
+  - Prompt for player data input
+  - Display a summary report of the scores
 
-- Prompt for player data input
-- Display a summary report of the scores
-
-## Usage
-
+## Usage: 
 1. Clone the repository or copy the code into your local environment.
 2. Run the script to input player data and calculate scores.
 
 ### Example Usage
-
 ```python
-# Example usage
 data = []
 num_players = int(input("Enter number of players: "))
 for _ in range(num_players):
@@ -97,7 +93,29 @@ data = [
     },
     # Add more sample players as needed
 ]
+```
 
-License
+```python
+def display_kpi_summary(data):
+    scores, total_score = calculate_scores(data)
+    
+    print("Affiliate KPI Summary Report")
+    print("============================")
+    print(f"Total Score: {total_score}")
+    print()
+    
+    for player in data:
+        print(f"Player: {player['name']}")
+        print(f"  - Monthly Active Players: {scores['monthly_active_players']}")
+        print(f"  - Deposit Frequency: {scores['deposit_frequency']}")
+        print(f"  - Bonus to Deposit Ratio: {scores['bonus_to_deposit_ratio']}")
+        print(f"  - Average Bet Size: {scores['average_bet_size']}")
+        print(f"  - Customer Acquisition Cost: {scores['customer_acquisition_cost']}")
+        print(f"  - Long Term Value: {scores['long_term_value']}")
+        print(f"  - Risky Behaviors: {scores['risky_behaviors']}")
+        print()
+```
+
+#### License
 This project is licensed under the MIT License.
 
