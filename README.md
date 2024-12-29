@@ -31,132 +31,36 @@ Recent Deposit: 12/26/2024
 3. Drops - Free coupons players can redeem provided they meet the requirements.
 4. Streams - A way to engage with players in a live stream enviorment, which can dramatically boost engagements. We should only care about the total amount of airtime for any stream, regardless of any other factors.
 
-def display_kpi_summary(data):
-    scores, total_score = calculate_scores(data)
-    
-    print("Affiliate KPI Summary Report")
-    print("============================")
-    print(f"Total Score: {total_score}")
-    print()
-    
-    for player in data:
-        print(f"Player: {player['name']}")
-        print(f"  - Monthly Active Players: {scores['monthly_active_players']}")
-        print(f"  - Deposit Frequency: {scores['deposit_frequency']}")
-        print(f"  - Bonus to Deposit Ratio: {scores['bonus_to_deposit_ratio']}")
-        print(f"  - Average Bet Size: {scores['average_bet_size']}")
-        print(f"  - Customer Acquisition Cost: {scores['customer_acquisition_cost']}")
-        print(f"  - Long Term Value: {scores['long_term_value']}")
-        print(f"  - Risky Behaviors: {scores['risky_behaviors']}")
-        print()
+This project implements a scoring system for affiliate campaigns based on various Key Performance Indicators (KPIs). The system calculates scores for each player and provides a summary report that is easy to understand.
 
-def calculate_scores(data):
-    scores = {
-        ## 1 MAP
-        'monthly_active_players': calculate_map(data),
-        ## 2 DF
-        'deposit_frequency': calculate_df(data),
-        ## 3 BDR
-        'bonus_to_deposit_ratio': calculate_bdr(data),
-        ## 4 ABS
-        'average_bet_size': calculate_abs(data),
-        ## 5 CAC
-        'customer_acquisition_cost': calculate_cac(data),
-        ## 6 LTV
-        'long_term_value': calculate_ltv(data),
-        ## 7 RB
-        'risky_behaviors': calculate_rb(data) 
-    }
-    
-    total_score = sum(scores.values())
-    return scores, total_score
+## Features
 
-def calculate_map(data):
-    # 1 Calculate Monthly Active Players
-    map = len(set([player['id'] for player in data if player['last_deposit_date'] >= last_30_days]))
-    if map <= 10:
-        return 10
-    elif map <= 20:
-        return 20
-    elif map <= 30:
-        return 30
-    else:
-        return 40
+- Calculate scores for the following KPIs:
+  - Monthly Active Players (MAP)
+  - Deposit Frequency (DF)
+  - Bonus to Deposit Ratio (BDR)
+  - Average Bet Size (ABS)
+  - Customer Acquisition Cost (CAC)
+  - Long Term Value (LTV)
+  - Risky Behaviors (RB)
+  - Engagement
 
-def calculate_df(data):
-    # 2 Calculate Deposit Frequency
-    df = sum([player['deposit_count'] for player in data]) / len(data)
-    if df <= 2:
-        return 10
-    elif df <= 4:
-        return 20
-    elif df <= 6:
-        return 30
-    else:
-        return 40
+- Prompt for player data input
+- Display a summary report of the scores
 
-def calculate_bdr(data):
-    # 3 Calculate Bonus to Deposit Ratio
-    bdr = sum([player['bonus_amount'] for player in data]) / sum([player['deposit_amount'] for player in data])
-    if bdr <= 0.1:
-        return 40
-    elif bdr <= 0.2:
-        return 30
-    elif bdr <= 0.3:
-        return 20
-    else:
-        return 10
+## Usage
 
-def calculate_abs(data):
-    # 4 Calculate Average Bet Size
-    abs = sum([player['total_wagered'] for player in data]) / sum([player['bet_count'] for player in data])
-    if abs <= 10:
-        return 10
-    elif abs <= 20:
-        return 20
-    elif abs <= 30:
-        return 30
-    else:
-        return 40
+1. Clone the repository or copy the code into your local environment.
+2. Run the script to input player data and calculate scores.
 
-def calculate_cac(data):
-    # 5 Calculate Customer Acquisition Cost
-    cac = sum([player['acquisition_cost'] for player in data]) / len(data)
-    if cac <= 50:
-        return 40
-    elif cac <= 100:
-        return 30
-    elif cac <= 150:
-        return 20
-    else:
-        return 10
+### Example Usage
 
-def calculate_ltv(data):
-    # 6 Calculate Long Term Value
-    ltv = sum([player['total_revenue'] for player in data]) / len(data)
-    if ltv <= 100:
-        return 10
-    elif ltv <= 200:
-        return 20
-    elif ltv <= 300:
-        return 30
-    else:
-        return 40
+```python
+# Example usage
+data = []
+num_players = int(input("Enter number of players: "))
+for _ in range(num_players):
+    data.append(prompt_player_data())
 
-def calculate_rb(data):
-    # 7 Calculate Risky Behaviors
-    rb = sum([1 for player in data if player['risky_behavior']])
-    if rb <= 5:
-        return 40
-    elif rb <= 10:
-        return 30
-    elif rb <= 15:
-        return 20
-    else:
-        return 10
-
-# Update UI to display scores
-def update_ui(scores, total_score):
-    # Code to update the affiliate panel UI
-    print("Scores:", scores)
-    print("Total Score:", total_score)
+scores, total_score = calculate_scores(data)
+update_ui(scores, total_score)
